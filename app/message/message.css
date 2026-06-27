@@ -1,0 +1,322 @@
+/* show-message.css — styles for the "Show Message" page */
+
+:root {
+  --green-50: #f0faf0;
+  --green-100: #d4edca;
+  --green-300: #b8dfa8;
+  --green-400: #9ecf82;
+  --green-600: #4a7c59;
+  --green-700: #355c42;
+  --green-accent: #3a9e4a;
+  --text-dark: #233b29;
+}
+
+.show-message-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #eaf7e3 0%, #d9efd0 100%);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: var(--text-dark);
+  box-sizing: border-box;
+  padding-bottom: 56px;
+}
+
+.show-message-root * {
+  box-sizing: border-box;
+}
+
+/* ── NAVBAR ── */
+.sm-navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 18px 48px;
+  border-bottom: 1px solid rgba(158, 207, 130, 0.4);
+}
+
+.sm-navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sm-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 30px;
+}
+
+.sm-logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.sm-logo-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: "Dancing Script", "Brush Script MT", cursive;
+  color: var(--green-700);
+}
+
+/* ── STAGE ── */
+.sm-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 60px 24px 30px;
+}
+
+.envelope-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+}
+
+.envelope-svg-big {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 22px 34px rgba(58, 158, 74, 0.28));
+}
+
+/* paper note popping out of the envelope flap */
+.note-paper {
+  position: absolute;
+  top: -8%;
+  left: 50%;
+  width: 62%;
+  transform: translateX(-50%) rotate(-3deg);
+  background: #f7f2e3;
+  border-radius: 6px;
+  padding: 26px 22px 30px;
+  text-align: center;
+  box-shadow: 0 14px 26px rgba(53, 92, 66, 0.22);
+  z-index: 3;
+}
+
+.note-paper p {
+  margin: 0 0 4px;
+  font-family: "Dancing Script", "Brush Script MT", cursive;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  color: var(--green-700);
+}
+
+.note-heart {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 1.1rem;
+}
+
+/* floating hearts + sparkles around the envelope */
+.float-heart {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.85;
+  animation: sm-float 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+.fh1 { top: 4%; left: 4%; animation-delay: 0s; }
+.fh2 { top: 10%; right: -2%; animation-delay: 0.8s; font-size: 1.6rem; }
+.fh3 { bottom: 18%; left: -4%; animation-delay: 1.6s; }
+.fh4 { bottom: 6%; right: 6%; animation-delay: 2.4s; }
+
+@keyframes sm-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.sparkle {
+  position: absolute;
+  color: var(--green-300);
+  opacity: 0.8;
+  animation: sm-twinkle 2.6s ease-in-out infinite;
+  z-index: 1;
+}
+
+.sp1 { top: 22%; right: 12%; font-size: 1rem; animation-delay: 0s; }
+.sp2 { bottom: 2%; left: 24%; font-size: 0.8rem; animation-delay: 1.2s; }
+
+@keyframes sm-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1.1); }
+}
+
+/* ── CLOSE MESSAGE BUTTON ── */
+.btn-close-message {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 14px 30px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--green-accent), var(--green-600));
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(74, 124, 89, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-close-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(74, 124, 89, 0.32);
+}
+
+.btn-heart {
+  font-size: 1.1rem;
+}
+
+/* ── INFO CARDS ── */
+.sm-steps-section {
+  width: 100%;
+  max-width: 980px;
+  padding: 48px 24px 0;
+}
+.sm-steps {
+  display: flex;
+  flex-wrap: nowrap;      /* Never wrap to the next line */
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+}
+
+.sm-step-card {
+  flex: 1;                /* Equal width for all cards */
+  min-width: 0;           /* Prevents overflow */
+  max-width: none;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--green-100);
+  border-radius: 16px;
+}
+
+.sm-step-icon-ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--green-300);
+  background: #fff;
+}
+
+.sm-step-icon {
+  font-size: 1rem;
+  color: var(--green-accent);
+}
+
+.sm-step-body {
+  min-width: 0;
+}
+
+.sm-step-body strong {
+  display: block;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+  color: var(--green-700);
+}
+
+.sm-step-body p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5a6b5e;
+  line-height: 1.4;
+}
+
+.sm-stage-list {
+  flex-direction: column;
+  gap: 56px;
+  padding-bottom: 24px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .sm-navbar {
+    padding: 16px 20px;
+  }
+
+  .sm-stage {
+    padding: 40px 16px 20px;
+  }
+
+  .note-paper {
+    width: 74%;
+    padding: 18px 14px 22px;
+  }
+
+  .note-paper p {
+    font-size: 1.05rem;
+  }
+
+  .sm-steps-section {
+    padding: 32px 16px 0;
+  }
+
+  .sm-steps {
+    gap: 10px;
+  }
+
+  .sm-step-card {
+    max-width: 100%;
+    flex-direction: column;   /* stack icon above text instead of side-by-side */
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 12px 6px;
+  }
+
+  .sm-step-icon-ring {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sm-step-icon {
+    font-size: 0.85rem;
+  }
+
+  .sm-step-body {
+    width: 100%;
+  }
+
+  .sm-step-body strong {
+    font-size: 0.78rem;
+    margin-bottom: 2px;
+    line-height: 1.25;
+  }
+
+  .sm-step-body p {
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+}
+
+/* ── ACCESSIBILITY ── */
+@media (prefers-reduced-motion: reduce) {
+  .float-heart,
+  .sparkle {
+    animation: none;
+  }
+}
+
+a:focus-visible {
+  outline: 2px solid var(--green-accent);
+  outline-offset: 2px;
+}

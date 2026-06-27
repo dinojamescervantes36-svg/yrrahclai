@@ -1,18 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import "./home.css";
-
-const STEPS = [
-  { icon: "♡", label: "Write", desc: "Type your message with love." },
-  { icon: "✉", label: "Send", desc: "Share it to someone special." },
-  { icon: "✦♡", label: "Make them smile", desc: "Brighten their day anonymously." },
-];
 
 const TABS = [
   {
     key: "home",
     label: "Home",
+    path: "/",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 11.5 12 4l8 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -23,6 +19,7 @@ const TABS = [
   {
     key: "messages",
     label: "Messages",
+    path: "/message",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.8" />
@@ -33,6 +30,7 @@ const TABS = [
   {
     key: "about",
     label: "About",
+    path: "/about",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.8" />
@@ -42,8 +40,67 @@ const TABS = [
   },
 ];
 
+// Key used to persist messages across pages/sessions in this browser.
+const STORAGE_KEY = "yrrahclai_messages";
+
+function addMessage(text) {
+  const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const updated = [
+    ...existing,
+    { id: Date.now(), text, lines: text.split("\n") },
+  ];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  return updated;
+}
+
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("home");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [isWriting, setIsWriting] = useState(false);
+  const [draft, setDraft] = useState("");
+
+  // Derive active tab from current route instead of separate state,
+  // so it stays correct on reloads/direct navigation.
+  const activeTab =
+    TABS.find((tab) => tab.path === pathname)?.key ?? "home";
+
+  const goTo = (path) => {
+    router.push(path);
+  };
+
+  const handleSend = () => {
+    const trimmed = draft.trim();
+    if (!trimmed) return;
+    addMessage(trimmed);
+    setDraft("");
+    setIsWriting(false);
+    router.push("/message");
+  };
+
+  // STEPS defined inside the component so each step can carry a real handler.
+  const STEPS = [
+    {
+      icon: "♡",
+      label: "Write",
+      desc: "Type your message with love.",
+      onClick: () => setIsWriting((prev) => !prev),
+    },
+    {
+      icon: "✉",
+      label: "Send",
+      desc: "Share it to someone special.",
+      onClick: handleSend,
+    },
+    {
+      icon: "✦♡",
+      label: "Make them smile",
+      desc: "Brighten their day anonymously.",
+      // Placeholder route for future code — build out the real
+      // "make them smile" experience at /smile later.
+      onClick: () => router.push("/flower"),
+    },
+  ];
 
   return (
     <div className="home-root">
@@ -81,7 +138,10 @@ export default function HomePage() {
             Share your feelings, appreciation,<br />
             or a sweet surprise with someone you love.
           </p>
-          <button className="btn-cta">
+          <button
+            className="btn-cta"
+            onClick={() => goTo("/message")}
+          >
             Show Message <span className="btn-heart">♡</span>
           </button>
           <p className="anon-note">
@@ -128,7 +188,13 @@ export default function HomePage() {
       <section className="how-it-works">
         <div className="steps">
           {STEPS.map((step) => (
-            <div className="step-card" key={step.label}>
+            <button
+              type="button"
+              className="step-card"
+              key={step.label}
+              onClick={step.onClick}
+              aria-label={step.label}
+            >
               <div className="step-icon-ring">
                 <div className="step-icon">{step.icon}</div>
               </div>
@@ -139,9 +205,43 @@ export default function HomePage() {
               <svg className="step-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </div>
+            </button>
           ))}
         </div>
+
+        {/* Inline write box — appears when the "Write" step is toggled on */}
+        {isWriting && (
+          <div className="write-box">
+            <textarea
+              className="write-textarea"
+              placeholder="Write your message with love..."
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              rows={4}
+              autoFocus
+            />
+            <button
+              type="button"
+              className="write-send-btn"
+              onClick={handleSend}
+              disabled={!draft.trim()}
+              aria-label="Send message"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M3 11.5 20 4l-7.5 17-2-7.5L3 11.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="currentColor"
+                  fillOpacity="0.12"
+                />
+              </svg>
+              Send
+            </button>
+          </div>
+        )}
       </section>
 
       {/* ── BOTTOM TAB BAR (mobile) ── */}
@@ -150,7 +250,7 @@ export default function HomePage() {
           <button
             key={tab.key}
             className={`bottom-nav-item ${activeTab === tab.key ? "is-active" : ""}`}
-            onClick={() => setActiveTab(tab.key)}
+            onClick={() => goTo(tab.path)}
           >
             {tab.icon}
             <span>{tab.label}</span>
