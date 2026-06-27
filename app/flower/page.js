@@ -52,7 +52,7 @@ export default function GlassDomeRose() {
       {/* Back Button */}
       <button
               className="close-btn"
-              onClick={() => router.push("/home")}
+              onClick={() => router.push("/gallery")}
             >
               ✕
       </button>

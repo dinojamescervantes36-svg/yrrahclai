@@ -63,15 +63,19 @@ const DEFAULT_MESSAGES = [
 ];
 
 function EnvelopeCard({ message, onDelete }) {
+  const [expanded, setExpanded] = useState(false);
+  const fullText = message.lines.join(" ");
+  const isLong = fullText.length > 180;
+
   return (
     <div className="envelope-card">
-        <button
-          className="delete-message-btn"
-          onClick={onDelete}
-          aria-label="Delete message"
-          >
-          🗑️
-        </button>
+      <button
+        className="delete-message-btn"
+        onClick={onDelete}
+        aria-label="Delete message"
+      >
+        🗑️
+      </button>
       <svg
         className="envelope-svg-big"
         viewBox="0 0 420 340"
@@ -108,9 +112,25 @@ function EnvelopeCard({ message, onDelete }) {
 
       {/* paper note popping out of the envelope */}
       <div className="note-paper">
-        {message.lines.map((line, i) => (
-          <p key={i}>{line}</p>
-        ))}
+        {isLong && !expanded ? (
+          <p className="collapsed">{fullText.slice(0, 180).trim()}…</p>
+        ) : (
+          message.lines.map((line, i) => (
+            <p key={i} className={expanded ? "expanded" : ""}>
+              {line}
+            </p>
+          ))
+        )}
+
+        {isLong && (
+          <button
+            className="read-more-btn"
+            onClick={() => setExpanded((prev) => !prev)}
+          >
+            {expanded ? "Show Less" : "Read More"}
+          </button>
+        )}
+
         <span className="note-heart">💚</span>
       </div>
 

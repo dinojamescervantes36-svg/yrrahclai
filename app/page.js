@@ -28,6 +28,18 @@ const TABS = [
     ),
   },
   {
+    key: "gallery",
+    label: "Gallery",
+    href: "/gallery",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="8.5" cy="9.5" r="1.6" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M4 16.5 9 12l3 2.5 4-4 4 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     key: "about",
     label: "About",
     path: "/about",
@@ -98,7 +110,7 @@ export default function HomePage() {
       desc: "Brighten their day anonymously.",
       // Placeholder route for future code — build out the real
       // "make them smile" experience at /smile later.
-      onClick: () => router.push("/flower"),
+      onClick: () => router.push("/gallery"),
     },
   ];
 

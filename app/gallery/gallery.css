@@ -1,0 +1,422 @@
+/* ============================================================
+   gallery.css
+   Styles for the "Gallery" page
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. DESIGN TOKENS
+   (same palette/scale as message.css, so pages stay consistent)
+------------------------------------------------------------ */
+:root {
+  --green-50:  #f0faf0;
+  --green-100: #d4edca;
+  --green-300: #b8dfa8;
+  --green-400: #9ecf82;
+  --green-600: #4a7c59;
+  --green-700: #355c42;
+  --green-accent: #3a9e4a;
+
+  --text-dark:  #233b29;
+  --text-muted: #5a6b5e;
+  --paper-bg:   #fffdf7;
+  --white:      #ffffff;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 4px 10px rgba(35, 59, 41, 0.08);
+  --shadow-md: 0 10px 24px rgba(53, 92, 66, 0.16);
+  --shadow-lg: 0 20px 36px rgba(58, 158, 74, 0.24);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 0.18s var(--ease);
+  --transition-base: 0.28s var(--ease);
+
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-script: "Dancing Script", "Brush Script MT", cursive;
+}
+
+/* ------------------------------------------------------------
+   2. BASE
+------------------------------------------------------------ */
+.gallery-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #f7fdf6 0%, #ffffff 60%);
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  box-sizing: border-box;
+  padding-bottom: 100px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.gallery-root * {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   3. NAVBAR
+------------------------------------------------------------ */
+.gal-navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: var(--space-5) var(--space-8);
+  border-bottom: 1px solid rgba(158, 207, 130, 0.4);
+}
+
+.gal-navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.gal-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 30px;
+}
+
+.gal-logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.gal-logo-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-script);
+  letter-spacing: 0.02em;
+  color: var(--green-700);
+}
+
+/* ------------------------------------------------------------
+   4. HERO
+------------------------------------------------------------ */
+.gal-hero {
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  padding: var(--space-8) var(--space-5) var(--space-4);
+}
+
+.gal-title {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  color: var(--green-700);
+}
+
+.gal-heart {
+  color: var(--green-accent);
+}
+
+.gal-subtitle {
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   5. PHOTO GRID
+------------------------------------------------------------ */
+.gal-grid-wrap {
+  width: 100%;
+  max-width: 1080px;
+  padding: var(--space-4) var(--space-6) var(--space-6);
+}
+
+.gal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-7) var(--space-6);
+}
+
+/* ------------------------------------------------------------
+   6. POLAROID CARD
+------------------------------------------------------------ */
+.polaroid-card {
+  --rotate: 0deg;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  background: var(--paper-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transform: rotate(var(--rotate));
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  font-family: inherit;
+}
+
+.polaroid-card:hover,
+.polaroid-card:focus-visible {
+  transform: rotate(0deg) translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+}
+
+.polaroid-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 64px;
+  height: 22px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(184, 223, 168, 0.55);
+  border: 1px solid rgba(158, 207, 130, 0.6);
+  box-shadow: var(--shadow-sm);
+}
+
+.polaroid-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--green-100);
+}
+
+.polaroid-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid-caption {
+  font-family: var(--font-script);
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ------------------------------------------------------------
+   7. LIGHTBOX
+------------------------------------------------------------ */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 59, 41, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  z-index: 1000;
+  animation: gal-fade-in var(--transition-base);
+}
+
+.lightbox-frame {
+  position: relative;
+  max-width: min(560px, 90vw);
+  max-height: 85vh;
+  background: var(--paper-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.lightbox-frame img {
+  max-width: 100%;
+  max-height: 65vh;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  margin: 0;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  color: var(--green-700);
+  text-align: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--text-dark);
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.gallery-image,
+.lightbox-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox-image {
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.lightbox-close:hover {
+  background: var(--green-accent);
+  color: var(--white);
+  transform: scale(1.08);
+}
+
+@keyframes gal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ------------------------------------------------------------
+   8. CLOSE GALLERY BUTTON
+------------------------------------------------------------ */
+.btn-close-gallery {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-7);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--green-accent), var(--green-600));
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.btn-close-gallery:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(74, 124, 89, 0.32);
+  filter: brightness(1.04);
+}
+
+.btn-heart {
+  font-size: 1.05rem;
+}
+
+/* ------------------------------------------------------------
+   9. BOTTOM TAB BAR (mobile)
+------------------------------------------------------------ */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .mobile-only {
+    display: flex;
+  }
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--white);
+  border-top: 1px solid var(--green-100);
+  padding: var(--space-2) var(--space-2) var(--space-3);
+  box-shadow: 0 -6px 18px rgba(35, 59, 41, 0.06);
+  z-index: 50;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.bottom-nav-item.is-active {
+  color: var(--green-accent);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   10. RESPONSIVE
+------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .gal-navbar {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .gal-hero {
+    padding: var(--space-6) var(--space-4) var(--space-3);
+  }
+
+  .gal-grid-wrap {
+    padding: var(--space-3) var(--space-4) var(--space-5);
+  }
+
+  .gal-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-6) var(--space-4);
+  }
+}
+
+/* ------------------------------------------------------------
+   11. ACCESSIBILITY
+------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .polaroid-card,
+  .lightbox-overlay {
+    animation: none;
+    transition: none;
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--green-accent);
+  outline-offset: 2px;
+}

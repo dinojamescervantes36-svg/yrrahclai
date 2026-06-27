@@ -1,45 +1,95 @@
-/* show-message.css — styles for the "Show Message" page */
+/* ============================================================
+   message.css
+   Styles for the "Show Message" page
+   ============================================================ */
 
+/* ------------------------------------------------------------
+   1. DESIGN TOKENS
+------------------------------------------------------------ */
 :root {
-  --green-50: #f0faf0;
+  /* Color palette */
+  --green-50:  #f0faf0;
   --green-100: #d4edca;
   --green-300: #b8dfa8;
   --green-400: #9ecf82;
   --green-600: #4a7c59;
   --green-700: #355c42;
   --green-accent: #3a9e4a;
-  --text-dark: #233b29;
+
+  --text-dark:   #233b29;
+  --text-muted:  #5a6b5e;
+  --paper-bg:    #f7f2e3;
+  --danger:      #e74c3c;
+  --white:       #ffffff;
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 10px rgba(35, 59, 41, 0.08);
+  --shadow-md: 0 10px 24px rgba(53, 92, 66, 0.16);
+  --shadow-lg: 0 20px 36px rgba(58, 158, 74, 0.24);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 0.18s var(--ease);
+  --transition-base: 0.28s var(--ease);
+
+  /* Typography */
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-script: "Dancing Script", "Brush Script MT", cursive;
+  --font-note: "Caveat", "Segoe Script", cursive;
 }
 
+/* ------------------------------------------------------------
+   2. BASE / RESET
+------------------------------------------------------------ */
 .show-message-root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(180deg, #f7fdf6 0%, #ffffff 60%);
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   color: var(--text-dark);
   box-sizing: border-box;
-  padding-bottom: 56px;
+  padding-bottom: var(--space-8);
+  -webkit-font-smoothing: antialiased;
 }
 
 .show-message-root * {
   box-sizing: border-box;
 }
 
-/* ── NAVBAR ── */
+/* ------------------------------------------------------------
+   3. NAVBAR
+------------------------------------------------------------ */
 .sm-navbar {
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 18px 48px;
+  padding: var(--space-5) var(--space-8);
   border-bottom: 1px solid rgba(158, 207, 130, 0.4);
+  backdrop-filter: blur(6px);
 }
 
 .sm-navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .sm-logo-badge {
@@ -54,68 +104,194 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .sm-logo-text {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  font-family: "Dancing Script", "Brush Script MT", cursive;
+  font-family: var(--font-script);
+  letter-spacing: 0.02em;
   color: var(--green-700);
 }
 
-/* ── STAGE ── */
+/* ------------------------------------------------------------
+   4. STAGE / ENVELOPE LIST
+------------------------------------------------------------ */
 .sm-stage {
   position: relative;
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 60px 24px 30px;
+  padding: var(--space-7) var(--space-4) var(--space-8);
 }
 
+.sm-stage-list {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-7);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--space-6);
+  width: 100%;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--green-300) transparent;
+}
+
+.sm-stage-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.sm-stage-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sm-stage-list::-webkit-scrollbar-thumb {
+  background: var(--green-300);
+  border-radius: var(--radius-full);
+}
+
+/* ------------------------------------------------------------
+   5. ENVELOPE CARD
+------------------------------------------------------------ */
 .envelope-card {
   position: relative;
-  width: 100%;
-  max-width: 460px;
+  flex: 0 0 460px;
+  max-width: 500px;
+  transition: transform var(--transition-base), filter var(--transition-base);
+}
+
+.envelope-card:hover {
+  transform: translateY(-4px);
 }
 
 .envelope-svg-big {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 22px 34px rgba(58, 158, 74, 0.28));
+  filter: drop-shadow(var(--shadow-lg));
+  transition: filter var(--transition-base);
 }
 
-/* paper note popping out of the envelope flap */
+.envelope-card:hover .envelope-svg-big {
+  filter: drop-shadow(0 26px 42px rgba(58, 158, 74, 0.3));
+}
+
+.delete-message-btn {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--danger);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast), box-shadow var(--transition-fast);
+  z-index: 100;
+}
+
+.delete-message-btn:hover {
+  background: var(--danger);
+  color: var(--white);
+  box-shadow: var(--shadow-md);
+  transform: scale(1.08);
+}
+
+.delete-message-btn:active {
+  transform: scale(0.96);
+}
+
+/* ------------------------------------------------------------
+   6. NOTE PAPER (message text inside envelope)
+------------------------------------------------------------ */
 .note-paper {
   position: absolute;
   top: -8%;
   left: 50%;
-  width: 62%;
   transform: translateX(-50%) rotate(-3deg);
-  background: #f7f2e3;
-  border-radius: 6px;
-  padding: 26px 22px 30px;
+
+  width: 62%;
+  max-height: 300px;
+  overflow-y: auto;
+
+  background: var(--paper-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-6) var(--space-5);
   text-align: center;
-  box-shadow: 0 14px 26px rgba(53, 92, 66, 0.22);
+  box-shadow: var(--shadow-md);
   z-index: 3;
+
+  font-family: var(--font-note);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--text-dark);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--green-400) transparent;
 }
 
 .note-paper p {
-  margin: 0 0 4px;
-  font-family: "Dancing Script", "Brush Script MT", cursive;
-  font-size: 1.3rem;
-  line-height: 1.35;
-  color: var(--green-700);
+  margin: 0 0 var(--space-2);
+}
+
+.note-paper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.note-paper::-webkit-scrollbar-thumb {
+  background: var(--green-400);
+  border-radius: var(--radius-full);
 }
 
 .note-heart {
   display: inline-block;
-  margin-top: 6px;
+  margin-top: var(--space-1);
   font-size: 1.1rem;
 }
 
-/* floating hearts + sparkles around the envelope */
+.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.expanded {
+  display: block;
+}
+
+.read-more-btn {
+  margin-top: var(--space-2);
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--green-accent);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.read-more-btn:hover {
+  color: var(--green-700);
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------
+   7. FLOATING DECORATIONS
+------------------------------------------------------------ */
 .float-heart {
   position: absolute;
   font-size: 1.4rem;
@@ -128,37 +304,6 @@
 .fh2 { top: 10%; right: -2%; animation-delay: 0.8s; font-size: 1.6rem; }
 .fh3 { bottom: 18%; left: -4%; animation-delay: 1.6s; }
 .fh4 { bottom: 6%; right: 6%; animation-delay: 2.4s; }
-.envelope-card {
-  position: relative;
-}
-
-.delete-message-btn {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  background: #fff;
-  color: #e74c3c;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,.15);
-  transition: .25s;
-  z-index: 100;
-}
-
-.delete-message-btn:hover {
-  background: #e74c3c;
-  color: white;
-  transform: scale(1.1);
-}
-
-@keyframes sm-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
 
 .sparkle {
   position: absolute;
@@ -168,69 +313,91 @@
   z-index: 1;
 }
 
-
 .sp1 { top: 22%; right: 12%; font-size: 1rem; animation-delay: 0s; }
 .sp2 { bottom: 2%; left: 24%; font-size: 0.8rem; animation-delay: 1.2s; }
+
+@keyframes sm-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
 
 @keyframes sm-twinkle {
   0%, 100% { opacity: 0.3; transform: scale(0.8); }
   50% { opacity: 0.9; transform: scale(1.1); }
 }
 
-/* ── CLOSE MESSAGE BUTTON ── */
+/* ------------------------------------------------------------
+   8. CLOSE MESSAGE BUTTON
+------------------------------------------------------------ */
 .btn-close-message {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 14px 30px;
+  gap: var(--space-2);
+  margin-top: var(--space-7);
+  padding: var(--space-4) var(--space-7);
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
   text-decoration: none;
   background: linear-gradient(135deg, var(--green-accent), var(--green-600));
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(74, 124, 89, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    filter var(--transition-fast);
 }
 
 .btn-close-message:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 26px rgba(74, 124, 89, 0.32);
+  filter: brightness(1.04);
+}
+
+.btn-close-message:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
 }
 
 .btn-heart {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
-/* ── INFO CARDS ── */
+/* ------------------------------------------------------------
+   9. INFO / STEP CARDS
+------------------------------------------------------------ */
 .sm-steps-section {
   width: 100%;
   max-width: 980px;
-  padding: 48px 24px 0;
+  padding: var(--space-8) var(--space-6) 0;
 }
+
 .sm-steps {
   display: flex;
-  flex-wrap: nowrap;      /* Never wrap to the next line */
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: stretch;
-  gap: 20px;
+  gap: var(--space-5);
   width: 100%;
 }
 
 .sm-step-card {
-  flex: 1;                /* Equal width for all cards */
-  min-width: 0;           /* Prevents overflow */
-  max-width: none;
+  flex: 1;
+  min-width: 0;
   display: flex;
-  gap: 14px;
+  gap: var(--space-4);
   align-items: center;
-  padding: 16px 18px;
-  background: rgba(255, 255, 255, 0.5);
+  padding: var(--space-4) var(--space-5);
+  background: rgba(255, 255, 255, 0.6);
   border: 1px solid var(--green-100);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.sm-step-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .sm-step-icon-ring {
@@ -242,7 +409,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   border: 1.5px solid var(--green-300);
-  background: #fff;
+  background: var(--white);
 }
 
 .sm-step-icon {
@@ -264,77 +431,55 @@
 .sm-step-body p {
   margin: 0;
   font-size: 0.85rem;
-  color: #5a6b5e;
-  line-height: 1.4;
+  color: var(--text-muted);
+  line-height: 1.45;
 }
 
-.sm-stage-list {
-  display: flex;
-  flex-direction: row;
-  gap: 32px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 24px;
-  width: 100%;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--green-300) transparent;
-}
-
-/* Chrome, Edge, Safari */
-.sm-stage-list::-webkit-scrollbar {
-  height: 8px;
-}
-
-.sm-stage-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sm-stage-list::-webkit-scrollbar-thumb {
-  background: var(--green-300);
-  border-radius: 999px;
-}
-
-.envelope-card {
-  position: relative;
-  flex: 0 0 460px;   /* Fixed width */
-  max-width: 460px;
-}
-
-/* ── RESPONSIVE ── */
+/* ------------------------------------------------------------
+   10. RESPONSIVE (single consolidated breakpoint)
+------------------------------------------------------------ */
 @media (max-width: 600px) {
   .sm-navbar {
-    padding: 16px 20px;
+    padding: var(--space-4) var(--space-5);
   }
 
   .sm-stage {
-    padding: 40px 16px 20px;
+    padding: var(--space-7) var(--space-4) var(--space-5);
+  }
+
+  .sm-stage-list {
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .envelope-card {
+    flex: 0 0 90%;
+    max-width: 90%;
   }
 
   .note-paper {
     width: 74%;
-    padding: 18px 14px 22px;
-  }
-
-  .note-paper p {
-    font-size: 1.05rem;
+    max-height: 190px;
+    padding: var(--space-4) var(--space-3);
+    top: -5%;
+    font-size: 1.1rem;
   }
 
   .sm-steps-section {
-    padding: 32px 16px 0;
+    padding: var(--space-6) var(--space-4) 0;
   }
 
   .sm-steps {
-    gap: 10px;
+    gap: var(--space-3);
   }
 
   .sm-step-card {
     max-width: 100%;
-    flex-direction: column;   /* stack icon above text instead of side-by-side */
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 6px;
-    padding: 12px 6px;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-2);
   }
 
   .sm-step-icon-ring {
@@ -353,37 +498,30 @@
   .sm-step-body strong {
     font-size: 0.78rem;
     margin-bottom: 2px;
-    line-height: 1.25;
+    line-height: 1.3;
   }
 
   .sm-step-body p {
     font-size: 0.68rem;
     line-height: 1.35;
   }
-
 }
 
-@media (max-width: 600px) {
-  .envelope-card {
-    flex: 0 0 90%;
-    max-width: 90%;
-  }
-
-  .sm-stage-list {
-    gap: 18px;
-    padding: 16px;
-  }
-}
-
-/* ── ACCESSIBILITY ── */
+/* ------------------------------------------------------------
+   11. ACCESSIBILITY
+------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   .float-heart,
-  .sparkle {
+  .sparkle,
+  .envelope-card,
+  .sm-step-card {
     animation: none;
+    transition: none;
   }
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible {
   outline: 2px solid var(--green-accent);
   outline-offset: 2px;
 }
