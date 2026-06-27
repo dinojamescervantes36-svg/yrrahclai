@@ -62,9 +62,16 @@ const DEFAULT_MESSAGES = [
   },
 ];
 
-function EnvelopeCard({ message }) {
+function EnvelopeCard({ message, onDelete }) {
   return (
     <div className="envelope-card">
+        <button
+          className="delete-message-btn"
+          onClick={onDelete}
+          aria-label="Delete message"
+          >
+          🗑️
+        </button>
       <svg
         className="envelope-svg-big"
         viewBox="0 0 420 340"
@@ -129,6 +136,15 @@ export default function ShowMessagePage() {
     }
   }, []);
 
+  const handleDeleteMessage = (id) => {
+    if (!window.confirm("Delete this message?")) return;
+
+    const updatedMessages = messages.filter((msg) => msg.id !== id);
+
+    setMessages(updatedMessages);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedMessages));
+  };
+
   return (
     <div className="show-message-root">
       {/* ── NAVBAR ── */}
@@ -144,7 +160,11 @@ export default function ShowMessagePage() {
       {/* ── ENVELOPES (one per saved message) ── */}
       <div className="sm-stage sm-stage-list">
         {messages.map((msg) => (
-          <EnvelopeCard key={msg.id} message={msg} />
+          <EnvelopeCard
+            key={msg.id}
+            message={msg}
+            onDelete={() => handleDeleteMessage(msg.id)}
+          />
         ))}
       </div>
 
