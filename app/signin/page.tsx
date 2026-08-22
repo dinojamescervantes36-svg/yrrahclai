@@ -22,7 +22,7 @@ export default function SignInPage() {
         <div className={styles.brand}>
           <Logo href="/signin" />
         </div>
-        <h1 className={styles.title}>What&rsquo;s your today?</h1>
+        <h1 className={styles.title}>What&rsquo;s your Thoughts today?</h1>
         <p className={styles.subtitle}>Pick your name to open your inbox.</p>
 
         <div className={styles.list}>
