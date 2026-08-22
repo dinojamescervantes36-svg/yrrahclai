@@ -1,0 +1,145 @@
+/* globals.css — yrrah design tokens & base reset
+   Palette, type scale, radii and shadows taken from the yrrah
+   mobile component-library spec. */
+
+:root {
+  /* ── Palette ── */
+  --c-dark-green: #1f5e3a;
+  --c-green: #2ecc71;
+  --c-sage: #a8b592;
+  --c-mint: #eaf7ef;
+  --c-white: #ffffff;
+
+  --text: var(--c-dark-green);
+  --text-muted: rgba(31, 94, 58, 0.62);
+  --text-faint: rgba(31, 94, 58, 0.4);
+  --border: rgba(168, 181, 146, 0.5);
+  --border-strong: rgba(168, 181, 146, 0.85);
+  --surface: var(--c-white);
+  --surface-mint: var(--c-mint);
+
+  --danger-bg: #fdeaea;
+  --danger-text: #c0392b;
+  --danger-border: rgba(192, 57, 43, 0.25);
+
+  /* ── Type scale (Poppins) ── */
+  --fs-h1: 28px;
+  --fw-h1: 700;
+  --fs-h2: 20px;
+  --fw-h2: 600;
+  --fs-h3: 16px;
+  --fw-h3: 600;
+  --fs-body1: 14px;
+  --fw-body1: 400;
+  --fs-body2: 12px;
+  --fw-body2: 400;
+  --fs-caption: 11px;
+  --fw-caption: 500;
+
+  /* ── Radii ── */
+  --radius-pill: 999px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 4px 12px rgba(31, 94, 58, 0.07);
+  --shadow-md: 0 10px 28px rgba(31, 94, 58, 0.12);
+  --shadow-lg: 0 20px 40px rgba(31, 94, 58, 0.16);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Width of the phone-like column the whole app renders inside. */
+  --app-max-width: 460px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--c-white);
+  color: var(--text);
+  font-family: var(--font-poppins), "Poppins", "Segoe UI", sans-serif;
+  font-size: var(--fs-body1);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Shared page shell — every screen sits in a centered phone-width column
+   so the app reads the same on mobile and desktop. The shell is pinned to
+   exactly one viewport tall; only .app-scroll inside it scrolls, so a
+   header stays put and a bottom nav never gets overlapped by content. */
+.app-shell {
+  height: 100dvh;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  background: var(--c-white);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-inline: 1px solid var(--border);
+}
+
+.app-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 500px) {
+  .app-shell {
+    border-inline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--c-green);
+  outline-offset: 2px;
+}

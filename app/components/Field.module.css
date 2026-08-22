@@ -1,0 +1,99 @@
+.label {
+  display: block;
+  font-size: var(--fs-body2);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 42px 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--c-white);
+  font-size: var(--fs-body1);
+  color: var(--text);
+  transition: border-color 0.16s var(--ease), background 0.16s var(--ease);
+}
+
+.input::placeholder {
+  color: var(--text-faint);
+}
+
+.input:focus {
+  border-color: var(--c-green);
+  outline: none;
+}
+
+.filled {
+  background: var(--surface-mint);
+  border-color: transparent;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 14px;
+  color: var(--text-faint);
+  display: flex;
+  pointer-events: none;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 50%;
+}
+
+.clearBtn:hover {
+  background: rgba(31, 94, 58, 0.08);
+}
+
+.textareaWrap {
+  position: relative;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--c-white);
+  font-size: var(--fs-body1);
+  font-family: inherit;
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.55;
+  transition: border-color 0.16s var(--ease);
+}
+
+.textarea::placeholder {
+  color: var(--text-faint);
+}
+
+.textarea:focus {
+  border-color: var(--c-green);
+  outline: none;
+}
+
+.counter {
+  margin-top: 8px;
+  text-align: right;
+  font-size: var(--fs-caption);
+  color: var(--text-faint);
+}

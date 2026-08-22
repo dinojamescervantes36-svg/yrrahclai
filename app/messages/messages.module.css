@@ -1,0 +1,45 @@
+.body {
+  padding: 8px 20px 24px;
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: var(--fs-body1);
+  font-weight: 600;
+  color: var(--text-faint);
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab.active {
+  color: var(--c-green);
+  border-bottom-color: var(--c-green);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: var(--fs-caption);
+  color: var(--text-faint);
+}

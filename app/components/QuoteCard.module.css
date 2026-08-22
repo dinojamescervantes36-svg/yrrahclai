@@ -1,0 +1,59 @@
+.card {
+  background: var(--c-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.iconBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface-mint);
+  color: var(--c-green);
+}
+
+.eyebrow {
+  font-size: var(--fs-body2);
+  color: var(--text-muted);
+}
+
+.quote {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.from {
+  font-size: var(--fs-body2);
+  color: var(--c-green);
+  font-weight: 600;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+  font-size: var(--fs-caption);
+  color: var(--text-faint);
+}
+
+.report {
+  border: none;
+  background: none;
+  color: var(--danger-text);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+}

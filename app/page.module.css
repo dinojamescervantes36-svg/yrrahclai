@@ -1,0 +1,133 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 24px 12px;
+  gap: 18px;
+}
+
+.art {
+  margin-top: 4px;
+}
+
+.title {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-h1);
+  line-height: 1.25;
+  color: var(--text);
+  max-width: 300px;
+}
+
+.subtitle {
+  font-size: var(--fs-body1);
+  color: var(--text-muted);
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.ctaWrap {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badgeIcon {
+  color: var(--c-green);
+  display: flex;
+}
+
+.section {
+  padding: 34px 20px 20px;
+}
+
+.sectionHead {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-h2);
+  color: var(--text);
+}
+
+.sectionSub {
+  margin-top: 4px;
+  font-size: var(--fs-body2);
+  color: var(--text-muted);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--surface-mint);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  border: none;
+  width: 100%;
+  font-family: inherit;
+  transition: transform 0.16s var(--ease);
+}
+
+.step:hover {
+  transform: translateY(-2px);
+}
+
+.stepIconRing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-white);
+  color: var(--c-green);
+  flex-shrink: 0;
+}
+
+.stepBody {
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-h3);
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.stepDesc {
+  font-size: var(--fs-body2);
+  color: var(--text-muted);
+}
+
+.stepChevron {
+  color: var(--text-faint);
+  flex-shrink: 0;
+}

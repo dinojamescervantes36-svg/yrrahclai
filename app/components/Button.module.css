@@ -1,0 +1,70 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: var(--fs-body1);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--radius-pill);
+  padding: 15px 26px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease), opacity 0.16s var(--ease), background 0.16s var(--ease);
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.full {
+  width: 100%;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* Primary — solid green pill */
+.primary {
+  color: var(--c-white);
+  background: var(--c-green);
+  box-shadow: var(--shadow-sm);
+}
+
+.primary:hover:not(:disabled) {
+  background: #29b863;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Secondary — white pill, green border */
+.secondary {
+  color: var(--c-dark-green);
+  background: var(--c-white);
+  border: 1.5px solid var(--c-green);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--surface-mint);
+}
+
+/* Text — no fill, no border */
+.text {
+  color: var(--c-green);
+  background: transparent;
+  padding: 8px 4px;
+}
+
+.text:hover:not(:disabled) {
+  color: var(--c-dark-green);
+}

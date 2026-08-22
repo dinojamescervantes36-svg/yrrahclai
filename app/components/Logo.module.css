@@ -1,0 +1,25 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--surface-mint);
+  color: var(--c-green);
+  flex-shrink: 0;
+}
+
+.word {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-dark-green);
+  letter-spacing: -0.01em;
+}

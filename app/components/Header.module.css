@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  gap: 12px;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.iconBtn:hover {
+  background: var(--surface-mint);
+}
+
+.title {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-h3);
+  color: var(--text);
+}
+
+.heart {
+  color: var(--c-green);
+}
+
+.spacer {
+  width: 38px;
+}
