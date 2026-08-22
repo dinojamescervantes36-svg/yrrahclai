@@ -11,36 +11,47 @@ import Textarea from "../components/Textarea";
 import QuoteCard from "../components/QuoteCard";
 import Toast from "../components/Toast";
 import { SendIcon } from "../components/icons";
-import { addSentMessage } from "@/lib/messages";
+import { sendMessage } from "@/lib/messages";
+import { useSession } from "../components/SessionProvider";
 
 type Step = "form" | "preview" | "success";
 
 export default function WritePage() {
   const router = useRouter();
+  const { account, otherAccount } = useSession();
   const [step, setStep] = useState<Step>("form");
-  const [to, setTo] = useState("");
-  const [from, setFrom] = useState("");
   const [text, setText] = useState("");
+  const [fromLabel, setFromLabel] = useState("");
+  const [toLabel, setToLabel] = useState("");
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
   const canContinue = text.trim().length > 0;
-  const displayFrom = from.trim() || "A friend";
+  const displayFrom = fromLabel.trim() || account || "";
+  const displayTo = toLabel.trim() || otherAccount || "";
 
-  const handleSend = () => {
+  const handleSend = async () => {
+    if (!account || !otherAccount || sending) return;
+    setSending(true);
+    setError("");
     try {
-      addSentMessage(to, from, text);
+      await sendMessage(account, otherAccount, text, { fromLabel, toLabel });
       setStep("success");
     } catch {
       setError("Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
     }
   };
 
   const reset = () => {
-    setTo("");
-    setFrom("");
     setText("");
+    setFromLabel("");
+    setToLabel("");
     setStep("form");
   };
+
+  if (!account || !otherAccount) return null;
 
   if (step === "success") {
     return (
@@ -53,7 +64,7 @@ export default function WritePage() {
           </span>
           <div className={styles.successTitle}>Your message is on its way 💚</div>
           <p className={styles.successDesc}>
-            Somewhere out there, someone is about to smile.
+            {otherAccount} will see it land in their inbox.
           </p>
           <div className={styles.successActions}>
             <Button variant="secondary" fullWidth onClick={reset}>
@@ -74,13 +85,13 @@ export default function WritePage() {
         <Header variant="back" onBack={() => setStep("form")} />
         <main className={`app-scroll ${styles.previewBody}`}>
           <p className={styles.previewLead}>This is how your message will look.</p>
-          <QuoteCard text={text} from={displayFrom} />
+          <QuoteCard eyebrow={`To ${displayTo}`} text={text} from={displayFrom} />
           <div className={styles.previewActions}>
-            <Button fullWidth onClick={handleSend}>
-              Send message
+            <Button fullWidth disabled={sending} onClick={handleSend}>
+              {sending ? "Sending..." : "Send message"}
             </Button>
             <span className={styles.promise}>
-              <SendIcon size={13} /> Delivered straight to them.
+              <SendIcon size={13} /> Delivered straight to {otherAccount}.
             </span>
           </div>
         </main>
@@ -94,21 +105,24 @@ export default function WritePage() {
       <Header variant="back" onBack={() => router.push("/")} />
       <main className={`app-scroll ${styles.body}`}>
         <div className={styles.h2}>Who is this for?</div>
-
-        <TextInput
-          value={to}
-          onChange={setTo}
-          placeholder="Someone special..."
-        />
+        <div className={styles.field}>
+          <TextInput
+            value={toLabel}
+            onChange={setToLabel}
+            placeholder={`Someone special...`}
+            variant="filled"
+          />
+        </div>
 
         <div className={styles.field}>
           <label className={styles.h2} style={{ fontSize: "var(--fs-body2)" }}>
-            Your name
+            Your name <span className={styles.optional}></span>
           </label>
           <TextInput
-            value={from}
-            onChange={setFrom}
-            placeholder="So they know it's from you..."
+            value={fromLabel}
+            onChange={setFromLabel}
+            placeholder="So they know who it's from"
+            variant="filled"
           />
         </div>
 

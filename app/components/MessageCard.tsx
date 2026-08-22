@@ -13,6 +13,8 @@ export default function MessageCard({
 }) {
   const isReceived = message.direction === "received";
   const unread = isReceived && !message.read;
+  const senderDisplay = message.fromLabel || message.from;
+  const recipientDisplay = message.toLabel || message.to;
 
   return (
     <div className={`${styles.row} ${unread ? styles.unread : ""}`}>
@@ -23,7 +25,7 @@ export default function MessageCard({
         <span className={styles.body}>
           <span className={styles.metaRow}>
             {unread && <span className={styles.dot} aria-hidden="true" />}
-            <span className={styles.sender}>{isReceived ? message.from : `To ${message.to}`}</span>
+            <span className={styles.sender}>{isReceived ? senderDisplay : `To ${recipientDisplay}`}</span>
           </span>
           <span className={styles.text}>{message.text}</span>
           <span className={styles.time}>{timeAgo(message.createdAt)}</span>

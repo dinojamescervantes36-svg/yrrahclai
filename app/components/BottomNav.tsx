@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./BottomNav.module.css";
 import { GalleryIcon, HomeIcon, MailIcon, UserIcon, WriteIcon } from "./icons";
-import { getUnreadCount } from "@/lib/messages";
+import { useSession } from "./SessionProvider";
 
 const TABS = [
   { key: "home", label: "Home", href: "/", icon: HomeIcon },
@@ -17,11 +16,7 @@ const TABS = [
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const [unread, setUnread] = useState(0);
-
-  useEffect(() => {
-    setUnread(getUnreadCount());
-  }, []);
+  const { unreadCount } = useSession();
 
   return (
     <nav className={styles.nav} aria-label="Primary">
@@ -37,8 +32,8 @@ export default function BottomNav() {
           >
             <span className={styles.iconWrap}>
               <Icon size={20} />
-              {tab.key === "messages" && unread > 0 && (
-                <span className={styles.badge}>{unread > 9 ? "9+" : unread}</span>
+              {tab.key === "messages" && unreadCount > 0 && (
+                <span className={styles.badge}>{unreadCount > 9 ? "9+" : unreadCount}</span>
               )}
             </span>
             <span>{tab.label}</span>

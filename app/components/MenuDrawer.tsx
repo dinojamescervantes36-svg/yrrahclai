@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styles from "./MenuDrawer.module.css";
 import Logo from "./Logo";
+import { useSession } from "./SessionProvider";
 import {
   CloseIcon,
   GalleryIcon,
@@ -27,6 +28,8 @@ const LINKS = [
 ];
 
 export default function MenuDrawer({ onClose }: { onClose: () => void }) {
+  const { account } = useSession();
+
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
@@ -42,6 +45,18 @@ export default function MenuDrawer({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
+        {account && (
+          <div className={styles.account}>
+            <span className={styles.accountAvatar}>
+              <UserIcon size={18} />
+            </span>
+            <span>
+              <span className={styles.accountLabel}>Signed in as</span>
+              <span className={styles.accountName}>{account}</span>
+            </span>
+          </div>
+        )}
+
         <ul className={styles.list}>
           {LINKS.map((link) => {
             const Icon = link.icon;
@@ -56,6 +71,14 @@ export default function MenuDrawer({ onClose }: { onClose: () => void }) {
               </li>
             );
           })}
+          <li>
+            <Link href="/signin" className={styles.link} onClick={onClose}>
+              <span className={styles.linkIcon}>
+                <UserIcon size={20} />
+              </span>
+              Switch account
+            </Link>
+          </li>
           <li>
             <button
               type="button"

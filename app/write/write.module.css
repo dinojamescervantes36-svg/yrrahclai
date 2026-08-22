@@ -12,6 +12,24 @@
   color: var(--text);
 }
 
+.writingAs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-mint);
+  color: var(--c-dark-green);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--text-faint);
+}
+
 .field {
   display: flex;
   flex-direction: column;

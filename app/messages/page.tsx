@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./messages.module.css";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
@@ -8,27 +8,66 @@ import Button from "../components/Button";
 import EmptyState from "../components/EmptyState";
 import EnvelopeArt from "../components/EnvelopeArt";
 import MessageCard from "../components/MessageCard";
+import Toast from "../components/Toast";
 import { LockIcon } from "../components/icons";
-import { getReceivedMessages, getSentMessages, removeSentMessage } from "@/lib/messages";
+import {
+  deleteMessage,
+  fetchReceivedMessages,
+  fetchSentMessages,
+  markAllReceivedRead,
+  subscribeToAccount,
+} from "@/lib/messages";
 import type { Message } from "@/lib/types";
+import { useSession } from "../components/SessionProvider";
 
 type Tab = "sent" | "received";
 
 export default function MessagesPage() {
+  const { account, refreshUnread } = useSession();
   const [tab, setTab] = useState<Tab>("sent");
   const [sent, setSent] = useState<Message[]>([]);
   const [received, setReceived] = useState<Message[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState("");
+
+  const load = useCallback(() => {
+    if (!account) return;
+    Promise.all([fetchSentMessages(account), fetchReceivedMessages(account)])
+      .then(([s, r]) => {
+        setSent(s);
+        setReceived(r);
+        setLoaded(true);
+      })
+      .catch(() => setError("Couldn't load your messages. Please try again."));
+  }, [account]);
 
   useEffect(() => {
-    setSent(getSentMessages());
-    setReceived(getReceivedMessages());
-    setLoaded(true);
-  }, []);
+    load();
+  }, [load]);
+
+  useEffect(() => {
+    if (!account) return;
+    return subscribeToAccount(account, load);
+  }, [account, load]);
+
+  // "Seen it" resets the indicator: opening the Received tab marks every
+  // unread message here as read, which clears the bottom-nav badge too.
+  useEffect(() => {
+    if (tab !== "received" || !account) return;
+    if (!received.some((m) => !m.read)) return;
+    markAllReceivedRead(account)
+      .then(() => {
+        refreshUnread();
+        load();
+      })
+      .catch(() => {});
+  }, [tab, account, received, refreshUnread, load]);
 
   const handleDelete = (id: string) => {
     if (!window.confirm("Delete this message?")) return;
-    setSent(removeSentMessage(id));
+    deleteMessage(id)
+      .then(load)
+      .catch(() => setError("Couldn't delete that message. Please try again."));
   };
 
   const unreadCount = received.filter((m) => !m.read).length;
@@ -79,6 +118,12 @@ export default function MessagesPage() {
               ))}
             </div>
           )
+        ) : !loaded ? null : received.length === 0 ? (
+          <EmptyState
+            art={<EnvelopeArt size={140} />}
+            title="No messages yet"
+            description="When someone writes to you, it will appear here."
+          />
         ) : (
           <>
             <div className={styles.list}>
@@ -87,13 +132,14 @@ export default function MessagesPage() {
               ))}
             </div>
             <div className={styles.note}>
-              <LockIcon size={13} /> Private to this device
+              <LockIcon size={13} /> Just between the two of you
             </div>
           </>
         )}
       </main>
 
       <BottomNav />
+      {error && <Toast type="error" message={error} onClose={() => setError("")} />}
     </div>
   );
 }

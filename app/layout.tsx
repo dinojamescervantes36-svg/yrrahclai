@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
+import SessionProvider from "./components/SessionProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -23,7 +24,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={poppins.variable}>{children}</body>
+      <body className={poppins.variable}>
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   );
 }
