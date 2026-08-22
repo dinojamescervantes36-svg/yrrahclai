@@ -128,7 +128,11 @@ export default function MessagesPage() {
           <>
             <div className={styles.list}>
               {received.map((message) => (
-                <MessageCard key={message.id} message={message} />
+                <MessageCard
+                  key={message.id}
+                  message={message}
+                  onDelete={() => handleDelete(message.id)}
+                />
               ))}
             </div>
             <div className={styles.note}>
