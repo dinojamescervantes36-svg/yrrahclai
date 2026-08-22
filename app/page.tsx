@@ -14,13 +14,13 @@ const STEPS = [
   {
     icon: WriteIcon,
     title: "Write",
-    desc: "Type your message with love.",
+    desc: "Type your message and sign it with your name.",
     href: "/write",
   },
   {
     icon: HeartOutlineIcon,
     title: "Send",
-    desc: "Share it to someone special, anonymously.",
+    desc: "Share it to someone special, straight from you.",
     href: "/write",
   },
   {
@@ -56,9 +56,9 @@ export default function HomePage() {
           <div className={styles.badges}>
             <span className={styles.badge}>
               <span className={styles.badgeIcon}>
-                <HeartOutlineIcon size={14} />
+                <WriteIcon size={14} />
               </span>
-              Anonymous
+              Signed by you
             </span>
             <span className={styles.badge}>
               <span className={styles.badgeIcon}>

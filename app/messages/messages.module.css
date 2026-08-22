@@ -29,6 +29,21 @@
   border-bottom-color: var(--c-green);
 }
 
+.tabBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #e0473e;
+  color: var(--c-white);
+  font-size: 10px;
+  font-weight: 700;
+}
+
 .list {
   display: flex;
   flex-direction: column;

@@ -69,6 +69,16 @@ export function MailIcon({ size, ...props }: IconProps) {
   );
 }
 
+export function GalleryIcon({ size, ...props }: IconProps) {
+  return (
+    <svg {...base(size)} {...props}>
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="8.5" cy="9.5" r="1.6" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M4 16.5 9 12l3 2.5 4-4 4 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function UserIcon({ size, ...props }: IconProps) {
   return (
     <svg {...base(size)} {...props}>

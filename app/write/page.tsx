@@ -10,7 +10,7 @@ import TextInput from "../components/TextInput";
 import Textarea from "../components/Textarea";
 import QuoteCard from "../components/QuoteCard";
 import Toast from "../components/Toast";
-import { LockIcon } from "../components/icons";
+import { SendIcon } from "../components/icons";
 import { addSentMessage } from "@/lib/messages";
 
 type Step = "form" | "preview" | "success";
@@ -19,14 +19,16 @@ export default function WritePage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("form");
   const [to, setTo] = useState("");
+  const [from, setFrom] = useState("");
   const [text, setText] = useState("");
   const [error, setError] = useState("");
 
   const canContinue = text.trim().length > 0;
+  const displayFrom = from.trim() || "A friend";
 
   const handleSend = () => {
     try {
-      addSentMessage(to, text);
+      addSentMessage(to, from, text);
       setStep("success");
     } catch {
       setError("Something went wrong. Please try again.");
@@ -35,6 +37,7 @@ export default function WritePage() {
 
   const reset = () => {
     setTo("");
+    setFrom("");
     setText("");
     setStep("form");
   };
@@ -71,13 +74,13 @@ export default function WritePage() {
         <Header variant="back" onBack={() => setStep("form")} />
         <main className={`app-scroll ${styles.previewBody}`}>
           <p className={styles.previewLead}>This is how your message will look.</p>
-          <QuoteCard text={text} from="Someone" />
+          <QuoteCard text={text} from={displayFrom} />
           <div className={styles.previewActions}>
             <Button fullWidth onClick={handleSend}>
-              Send anonymously
+              Send message
             </Button>
             <span className={styles.promise}>
-              <LockIcon size={13} /> 100% anonymous. Promise.
+              <SendIcon size={13} /> Delivered straight to them.
             </span>
           </div>
         </main>
@@ -100,13 +103,24 @@ export default function WritePage() {
 
         <div className={styles.field}>
           <label className={styles.h2} style={{ fontSize: "var(--fs-body2)" }}>
+            Your name
+          </label>
+          <TextInput
+            value={from}
+            onChange={setFrom}
+            placeholder="So they know it's from you..."
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.h2} style={{ fontSize: "var(--fs-body2)" }}>
             Your message
           </label>
           <Textarea
             value={text}
             onChange={setText}
             placeholder="Write something from your heart..."
-            rows={6}
+            rows={5}
           />
         </div>
 

@@ -5,6 +5,7 @@ import styles from "./MenuDrawer.module.css";
 import Logo from "./Logo";
 import {
   CloseIcon,
+  GalleryIcon,
   HomeIcon,
   InfoIcon,
   LockIcon,
@@ -18,6 +19,7 @@ const LINKS = [
   { label: "Home", href: "/", icon: HomeIcon },
   { label: "Write a message", href: "/write", icon: WriteIcon },
   { label: "My messages", href: "/messages", icon: MailIcon },
+  { label: "Gallery", href: "/gallery", icon: GalleryIcon },
   { label: "How it works", href: "/about#how-it-works", icon: InfoIcon },
   { label: "About yrrah", href: "/about", icon: UserIcon },
   { label: "Privacy & Safety", href: "/about#privacy", icon: LockIcon },

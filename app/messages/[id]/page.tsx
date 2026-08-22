@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import Button from "../../components/Button";
 import QuoteCard from "../../components/QuoteCard";
 import Toast from "../../components/Toast";
-import { findMessage, removeSentMessage, timeAgo } from "@/lib/messages";
+import { findMessage, markMessageRead, removeSentMessage, timeAgo } from "@/lib/messages";
 import type { Message } from "@/lib/types";
 
 export default function MessageDetailPage() {
@@ -17,7 +17,11 @@ export default function MessageDetailPage() {
   const [thanked, setThanked] = useState(false);
 
   useEffect(() => {
-    setMessage(findMessage(params.id) ?? null);
+    const found = findMessage(params.id) ?? null;
+    setMessage(found);
+    if (found && found.direction === "received" && !found.read) {
+      markMessageRead(found.id);
+    }
   }, [params.id]);
 
   if (message === undefined) return null;
@@ -45,7 +49,7 @@ export default function MessageDetailPage() {
         <QuoteCard
           eyebrow={isReceived ? "A message for you" : `Sent to ${message.to}`}
           text={message.text}
-          from={isReceived ? "Someone" : "you"}
+          from={message.from}
           meta={timeAgo(message.createdAt)}
           onReport={isReceived ? () => window.alert("Thanks for letting us know — we'll look into it.") : undefined}
         />

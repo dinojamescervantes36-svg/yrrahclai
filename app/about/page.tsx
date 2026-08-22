@@ -6,8 +6,8 @@ import BottomNav from "../components/BottomNav";
 import { HeartFilledIcon, LockIcon, MailIcon, WriteIcon } from "../components/icons";
 
 const STEPS = [
-  { icon: WriteIcon, title: "Write", desc: "Type a message with love, no account needed." },
-  { icon: HeartFilledIcon, title: "Send", desc: "It goes out anonymously, straight to them." },
+  { icon: WriteIcon, title: "Write", desc: "Type a message and sign it — no account needed." },
+  { icon: HeartFilledIcon, title: "Send", desc: "It goes out straight to them, with your name on it." },
   { icon: MailIcon, title: "Make them smile", desc: "A little surprise lands softly in their day." },
 ];
 
@@ -23,8 +23,8 @@ export default function AboutPage() {
           </span>
           <div className={styles.introTitle}>Small messages, big heart</div>
           <p className={styles.introDesc}>
-            yrrah is a quiet place to send someone a kind word — anonymously,
-            gently, from the heart.
+            yrrah is a quiet place to send someone a kind word — signed with
+            your name, gently, from the heart.
           </p>
         </div>
 
@@ -54,11 +54,12 @@ export default function AboutPage() {
             Privacy & Safety
           </div>
           <p className={styles.paragraph}>
-            Messages you send are anonymous — we never attach your name or
-            contact details. Everything you write stays on your own device;
-            yrrah doesn&rsquo;t run it through a server or share it with
-            anyone else. If something you receive doesn&rsquo;t feel right,
-            use the Report option on that message.
+            Messages carry your name, so whoever gets one knows it&rsquo;s
+            really from you — but never anything more than that. Everything
+            you write stays on your own device; yrrah doesn&rsquo;t run it
+            through a server or share it with anyone else. If something you
+            receive doesn&rsquo;t feel right, use the Report option on that
+            message.
           </p>
         </section>
 
@@ -66,10 +67,18 @@ export default function AboutPage() {
           <div className={styles.sectionTitle}>FAQ</div>
           <div>
             <div className={styles.faqItem}>
-              <div className={styles.faqQ}>Is it really anonymous?</div>
+              <div className={styles.faqQ}>Do I need an account?</div>
               <p className={styles.faqA}>
-                Yes. Messages don&rsquo;t carry your name, and there&rsquo;s no
-                account or sign-in required.
+                No sign-in required. Just add your name to a message before
+                sending it, so the person on the other end knows it&rsquo;s
+                from you.
+              </p>
+            </div>
+            <div className={styles.faqItem}>
+              <div className={styles.faqQ}>What&rsquo;s the dot on Messages?</div>
+              <p className={styles.faqA}>
+                It means there&rsquo;s a message on this device you
+                haven&rsquo;t opened yet. It clears as soon as you read it.
               </p>
             </div>
             <div className={styles.faqItem}>

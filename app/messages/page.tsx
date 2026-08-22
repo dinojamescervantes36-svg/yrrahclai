@@ -9,7 +9,7 @@ import EmptyState from "../components/EmptyState";
 import EnvelopeArt from "../components/EnvelopeArt";
 import MessageCard from "../components/MessageCard";
 import { LockIcon } from "../components/icons";
-import { getSentMessages, removeSentMessage, RECEIVED_MESSAGES } from "@/lib/messages";
+import { getReceivedMessages, getSentMessages, removeSentMessage } from "@/lib/messages";
 import type { Message } from "@/lib/types";
 
 type Tab = "sent" | "received";
@@ -17,10 +17,12 @@ type Tab = "sent" | "received";
 export default function MessagesPage() {
   const [tab, setTab] = useState<Tab>("sent");
   const [sent, setSent] = useState<Message[]>([]);
+  const [received, setReceived] = useState<Message[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setSent(getSentMessages());
+    setReceived(getReceivedMessages());
     setLoaded(true);
   }, []);
 
@@ -28,6 +30,8 @@ export default function MessagesPage() {
     if (!window.confirm("Delete this message?")) return;
     setSent(removeSentMessage(id));
   };
+
+  const unreadCount = received.filter((m) => !m.read).length;
 
   return (
     <div className="app-shell">
@@ -48,6 +52,7 @@ export default function MessagesPage() {
             onClick={() => setTab("received")}
           >
             Received
+            {unreadCount > 0 && <span className={styles.tabBadge}>{unreadCount}</span>}
           </button>
         </div>
 
@@ -77,12 +82,12 @@ export default function MessagesPage() {
         ) : (
           <>
             <div className={styles.list}>
-              {RECEIVED_MESSAGES.map((message) => (
+              {received.map((message) => (
                 <MessageCard key={message.id} message={message} />
               ))}
             </div>
             <div className={styles.note}>
-              <LockIcon size={13} /> Messages are anonymous
+              <LockIcon size={13} /> Private to this device
             </div>
           </>
         )}
