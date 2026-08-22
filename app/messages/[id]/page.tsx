@@ -6,7 +6,9 @@ import styles from "./detail.module.css";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import QuoteCard from "../../components/QuoteCard";
+import Textarea from "../../components/Textarea";
 import Toast from "../../components/Toast";
+import { SendIcon } from "../../components/icons";
 import {
   deleteMessage,
   findMessage,
@@ -22,7 +24,9 @@ export default function MessageDetailPage() {
   const router = useRouter();
   const { account, otherAccount, refreshUnread } = useSession();
   const [message, setMessage] = useState<Message | null | undefined>(undefined);
-  const [thanked, setThanked] = useState(false);
+  const [replyText, setReplyText] = useState("");
+  const [replySending, setReplySending] = useState(false);
+  const [replySent, setReplySent] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -69,13 +73,18 @@ export default function MessageDetailPage() {
   const senderDisplay = message.fromLabel || message.from;
   const recipientDisplay = message.toLabel || message.to;
 
-  const handleThanks = async () => {
-    if (!account || !otherAccount || thanked) return;
+  const handleReply = async () => {
+    if (!account || !otherAccount || !replyText.trim() || replySending) return;
+    setReplySending(true);
+    setError("");
     try {
-      await sendMessage(account, otherAccount, "Thank you for this — it means a lot to me. 💚");
-      setThanked(true);
+      await sendMessage(account, otherAccount, replyText);
+      setReplyText("");
+      setReplySent(true);
     } catch {
       setError("Something went wrong. Please try again.");
+    } finally {
+      setReplySending(false);
     }
   };
 
@@ -94,7 +103,7 @@ export default function MessageDetailPage() {
       <Header variant="back" />
       <main className={`app-scroll ${styles.body}`}>
         <QuoteCard
-          eyebrow={isReceived ? "A message for you" : `Sent to ${recipientDisplay}`}
+          eyebrow={isReceived ? (message.toLabel || "A message for you") : `Sent to ${recipientDisplay}`}
           text={message.text}
           from={senderDisplay}
           meta={timeAgo(message.createdAt)}
@@ -103,13 +112,23 @@ export default function MessageDetailPage() {
 
         <div className={styles.actions}>
           {isReceived ? (
-            <Button
-              fullWidth
-              disabled={thanked}
-              onClick={handleThanks}
-            >
-              {thanked ? "Thanks sent 💚" : "Say thank you"}
-            </Button>
+            <div className={styles.replyBox}>
+              <div className={styles.replyLabel}>Reply to {senderDisplay}</div>
+              <Textarea
+                value={replyText}
+                onChange={setReplyText}
+                placeholder="Write back..."
+                rows={3}
+              />
+              <Button
+                fullWidth
+                icon={<SendIcon size={16} />}
+                disabled={!replyText.trim() || replySending}
+                onClick={handleReply}
+              >
+                {replySending ? "Sending..." : "Send reply"}
+              </Button>
+            </div>
           ) : (
             <Button
               variant="secondary"
@@ -122,8 +141,8 @@ export default function MessageDetailPage() {
           )}
         </div>
       </main>
-      {thanked && (
-        <Toast type="success" message="Thanks sent! 💚" onClose={() => setThanked(false)} />
+      {replySent && (
+        <Toast type="success" message="Reply sent! 💚" onClose={() => setReplySent(false)} />
       )}
       {error && <Toast type="error" message={error} onClose={() => setError("")} />}
     </div>

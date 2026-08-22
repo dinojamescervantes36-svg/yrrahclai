@@ -15,6 +15,22 @@
   gap: 12px;
 }
 
+.replyBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.replyLabel {
+  font-size: var(--fs-body2);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
 .notFound {
   flex: 1;
   display: flex;
